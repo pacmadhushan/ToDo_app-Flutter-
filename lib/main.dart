@@ -16,7 +16,7 @@ class MyApp extends StatelessWidget {
     // ignore: prefer_const_constructors
     SystemChrome.setSystemUIOverlayStyle(
         const SystemUiOverlayStyle(statusBarColor: Colors.transparent));
-    return const MaterialApp(
+    return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'ToDo App',
       home: Home(),
