@@ -5,9 +5,14 @@ import 'package:todo/constants/colors.dart';
 import 'package:todo/model/todo.dart';
 import 'package:todo/widgets/todo_item.dart';
 
-class Home extends StatelessWidget {
+class Home extends StatefulWidget {
   Home({super.key});
 
+  @override
+  State<Home> createState() => _HomeState();
+}
+
+class _HomeState extends State<Home> {
   final todosList = ToDo.todolist();
 
   @override
