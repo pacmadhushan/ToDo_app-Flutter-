@@ -129,7 +129,7 @@ class _HomeState extends State<Home> {
 
   AppBar _buildAppBar() {
     return AppBar(
-      backgroundColor: Color(0xFFDDECF6),
+      backgroundColor: const Color(0xFFDDECF6),
       elevation: 0,
       title: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
