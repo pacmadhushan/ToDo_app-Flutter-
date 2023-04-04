@@ -14,6 +14,15 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
   final todosList = ToDo.todolist();
+  List<ToDo> _foundToDo = [];
+  final _todoController = TextEditingController();
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    _foundToDo = todosList;
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -44,6 +53,8 @@ class _HomeState extends State<Home> {
                     for (ToDo toDoo in todosList)
                       ToDoItem(
                         todo: toDoo,
+                        onToDoChanged: _handleToDoChange,
+                        onDeleteItem: _DeleteToDoItem,
                       ),
                   ],
                 ),
@@ -76,8 +87,9 @@ class _HomeState extends State<Home> {
                       ],
                       borderRadius: BorderRadius.circular(10),
                     ),
-                    child: const TextField(
-                      decoration: InputDecoration(
+                    child: TextField(
+                      controller: _todoController,
+                      decoration: const InputDecoration(
                           hintText: 'Add a new todo item',
                           border: InputBorder.none),
                     ),
@@ -97,7 +109,9 @@ class _HomeState extends State<Home> {
                         fontSize: 40,
                       ),
                     ),
-                    onPressed: () {},
+                    onPressed: () {
+                      _addToDOItem(_todoController.text);
+                    },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.blue,
                       minimumSize: const Size(60, 60),
@@ -136,6 +150,40 @@ class _HomeState extends State<Home> {
         ],
       ),
     );
+  }
+
+  void _handleToDoChange(ToDo toDo) {
+    setState(() {
+      toDo.isDone = !toDo.isDone;
+    });
+  }
+
+  void _DeleteToDoItem(String id) {
+    setState(() {
+      todosList.removeWhere((item) => item.id == id);
+    });
+  }
+
+  void _addToDOItem(String toDo) {
+    setState(() {
+      todosList.add(ToDo(
+          id: DateTime.now().microsecondsSinceEpoch.toString(),
+          todoText: toDo));
+    });
+    _todoController.clear();
+  }
+
+  void _runFilter(String enteredKeyword) {
+    List<ToDo> results = [];
+    if (enteredKeyword.isEmpty) {
+      results = todosList;
+    } else {
+      results = todosList
+          .where((item) => item.todoText!
+              .toLowerCase()
+              .contains(enteredKeyword.toLowerCase()))
+          .toList();
+    }
   }
 
   Widget searchBox() {
